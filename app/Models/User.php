@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,6 +26,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'ordering',
     ];
 
     /**
@@ -48,6 +48,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'ordering' => 'boolean',
     ];
 
     /**
@@ -58,4 +59,27 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    protected static function booted()
+    {
+        //
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function coffees()
+    {
+        return $this->hasMany(Coffee::class);
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('id', 'like', '%' . $search . '%')
+            ->orWhere('name', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%')
+            ->orWhere('ordering', 'like', '%' . $search . '%');
+    }
 }
