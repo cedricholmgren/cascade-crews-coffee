@@ -13,15 +13,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return Order::all();
     }
 
     /**
@@ -29,7 +21,8 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        //
+        $order = Order::create($request->validated());
+        return $order;
     }
 
     /**
@@ -37,15 +30,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
-    {
-        //
+        return $order;
     }
 
     /**
@@ -53,7 +38,8 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        //
+        $order->update($request->validated());
+        return $order;
     }
 
     /**
