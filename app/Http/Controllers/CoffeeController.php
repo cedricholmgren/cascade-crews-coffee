@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCoffeeRequest;
 use App\Http\Requests\UpdateCoffeeRequest;
 use App\Models\Coffee;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Inertia\Inertia;
 
 class CoffeeController extends Controller
 {
@@ -13,7 +16,26 @@ class CoffeeController extends Controller
      */
     public function index()
     {
-        return Coffee::all();
+
+        return Inertia::render('Coffees/Index', [
+            'filters' => Request::all('search', 'trashed'),
+            'coffees' => Coffee::orderBy('id', 'desc')
+                ->filter(Request::only('search', 'trashed'))
+                ->paginate()
+                ->withQueryString()
+                ->through(function ($coffee) {
+                    return [
+                        'id' => $coffee->id,
+                        'order_id' => $coffee->order_id,
+                        'user_id' => $coffee->user_id,
+                        'size' => $coffee->size,
+                        'name' => $coffee->name,
+                        'note' => $coffee->note,
+                        'created_at' => $coffee->created_at,
+                        'deleted_at' => $coffee->deleted_at,
+                    ];
+                }),
+        ]);
     }
 
     /**
@@ -21,8 +43,8 @@ class CoffeeController extends Controller
      */
     public function store(StoreCoffeeRequest $request)
     {
-        $coffee = Coffee::create($request->validated());
-        return $coffee;
+        Coffee::create($request->validated());
+        return Redirect::route('coffees.index');
     }
 
     /**
@@ -30,7 +52,18 @@ class CoffeeController extends Controller
      */
     public function show(Coffee $coffee)
     {
-        return $coffee;
+        return Inertia::render('Coffees/Show', [
+            'coffee' => [
+                'id' => $coffee->id,
+                'order_id' => $coffee->order_id,
+                'user_id' => $coffee->user_id,
+                'size' => $coffee->size,
+                'name' => $coffee->name,
+                'note' => $coffee->note,
+                'created_at' => $coffee->created_at,
+                'deleted_at' => $coffee->deleted_at,
+            ],
+        ]);
     }
 
     /**
@@ -39,7 +72,7 @@ class CoffeeController extends Controller
     public function update(UpdateCoffeeRequest $request, Coffee $coffee)
     {
         $coffee->update($request->validated());
-        return $coffee;
+        return Redirect::back();
     }
 
     /**
@@ -47,6 +80,7 @@ class CoffeeController extends Controller
      */
     public function destroy(Coffee $coffee)
     {
-        //
+        $coffee->delete();
+        return Redirect::back();
     }
 }

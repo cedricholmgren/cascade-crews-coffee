@@ -14,10 +14,11 @@ class Order extends Model
         'user_id',
         'amount',
         'cost',
+        'completed',
     ];
 
     protected $casts = [
-        //
+        'completed' => 'boolean',
     ];
 
     protected static function booted()

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->integer('amount')->default(0);
             $table->integer('cost')->default(0);
+            $table->boolean('completed')->default(false);
         });
     }
 
