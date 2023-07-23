@@ -13,7 +13,23 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return Order::all();
+        return Inertia::render('Orders/Index', [
+            'filters' => Request::all('search', 'trashed'),
+            'orders' => Order::orderBy('id', 'desc')
+                ->filter(Request::only('search', 'trashed'))
+                ->paginate()
+                ->withQueryString()
+                ->through(function ($order) {
+                    return [
+                        'id' => $order->id,
+                        'user_id' => $order->user_id,
+                        'amount' => $order->amount,
+                        'cost' => $order->cost,
+                        'created_at' => $order->created_at,
+                        'deleted_at' => $order->deleted_at,
+                    ];
+                }),
+        ]);
     }
 
     /**
@@ -21,8 +37,8 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        $order = Order::create($request->validated());
-        return $order;
+        Order::create($request->validated());
+        return Redirect::route('orders.index');
     }
 
     /**
@@ -30,7 +46,16 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return $order;
+        return Inertia::render('Orders/Show', [
+            'order' => [
+                'id' => $order->id,
+                'user_id' => $order->user_id,
+                'amount' => $order->amount,
+                'cost' => $order->cost,
+                'created_at' => $order->created_at,
+                'deleted_at' => $order->deleted_at,
+            ],
+        ]);
     }
 
     /**
@@ -39,7 +64,7 @@ class OrderController extends Controller
     public function update(UpdateOrderRequest $request, Order $order)
     {
         $order->update($request->validated());
-        return $order;
+        return Redirect::back();
     }
 
     /**
@@ -47,6 +72,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+        return Redirect::back();
     }
 }

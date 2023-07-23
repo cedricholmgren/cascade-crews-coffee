@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CoffeeController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -40,11 +43,11 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/orders', 'App\Http\Controllers\OrderController@index')->name('orders');
-    Route::post('/orders', 'App\Http\Controllers\OrderController@store')->name('orders.store');
-    Route::put('/orders', 'App\Http\Controllers\OrderController@update')->name('orders.update');
-    Route::get('/orders/{order}', 'App\Http\Controllers\OrderController@show')->name('orders.show');
-    Route::delete('/orders/{order}', 'App\Http\Controllers\OrderController@destroy')->name('orders.destroy');
+    Route::get('orders', [OrderController::class, 'index'])->name('orders')->middleware('auth');
+    Route::post('orders', [OrderController::class, 'store'])->name('orders.store')->middleware('auth');
+    Route::put('orders', [OrderController::class, 'update'])->name('orders.update')->middleware('auth');
+    Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
+    Route::delete('orders/{order}', [OrderController::class, 'destroy'])->name('orders.destroy')->middleware('auth');
 });
 
 //route for getting coffees, storing coffees, and updating coffees
@@ -53,11 +56,11 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/coffees', 'App\Http\Controllers\CoffeeController@index')->name('coffees');
-    Route::post('/coffees', 'App\Http\Controllers\CoffeeController@store')->name('coffees.store');
-    Route::put('/coffees', 'App\Http\Controllers\CoffeeController@update')->name('coffees.update');
-    Route::get('/coffees/{coffee}', 'App\Http\Controllers\CoffeeController@show')->name('coffees.show');
-    Route::delete('/coffees/{coffee}', 'App\Http\Controllers\CoffeeController@destroy')->name('coffees.destroy');
+    Route::get('coffees', [CoffeeController::class, 'index'])->name('coffees')->middleware('auth');
+    Route::post('coffees', [CoffeeController::class, 'store'])->name('coffees.store')->middleware('auth');
+    Route::put('coffees', [CoffeeController::class, 'update'])->name('coffees.update')->middleware('auth');
+    Route::get('coffees/{coffee}', [CoffeeController::class, 'show'])->name('coffees.show')->middleware('auth');
+    Route::delete('coffees/{coffee}', [CoffeeController::class, 'destroy'])->name('coffees.destroy')->middleware('auth');
 });
 
 //route for getting users, storing users, and updating users
@@ -66,9 +69,9 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/users', 'App\Http\Controllers\UserController@index')->name('users');
-    Route::post('/users', 'App\Http\Controllers\UserController@store')->name('users.store');
-    Route::put('/users', 'App\Http\Controllers\UserController@update')->name('users.update');
-    Route::get('/users/{user}', 'App\Http\Controllers\UserController@show')->name('users.show');
-    Route::delete('/users/{user}', 'App\Http\Controllers\UserController@destroy')->name('users.destroy');
+    Route::get('users', [UserController::class, 'index'])->name('users')->middleware('auth');
+    Route::post('users', [UserController::class, 'store'])->name('users.store')->middleware('auth');
+    Route::put('users', [UserController::class, 'update'])->name('users.update')->middleware('auth');
+    Route::get('users/{user}', [UserController::class, 'show'])->name('users.show')->middleware('auth');
+    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy')->middleware('auth');
 });

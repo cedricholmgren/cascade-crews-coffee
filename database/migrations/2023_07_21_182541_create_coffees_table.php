@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('coffees', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreignId('order_id');
             $table->foreignId('user_id');
             $table->string('name');

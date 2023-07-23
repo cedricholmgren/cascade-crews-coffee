@@ -25,6 +25,7 @@ class StoreOrderRequest extends FormRequest
             'user_id' => 'required|exists:users,id',
             'amount' => 'required|integer',
             'cost' => 'required|integer',
+            'completed' => 'required|boolean',
         ];
     }
 }

@@ -45,6 +45,23 @@ class Coffee extends Model
             ->orWhere('note', 'like', '%' . $search . '%');
     }
 
+    public function scopeFilter($query, array $filters)
+    {
+        if (isset($filters['search']) && !empty($filters['search'])) {
+            $query->where('name', 'like', '%' . $filters['search'] . '%');
+        }
+
+        if (isset($filters['trashed'])) {
+            if ($filters['trashed'] === 'true') {
+                $query->onlyTrashed();
+            } elseif ($filters['trashed'] === 'false') {
+                $query->whereNull('deleted_at');
+            }
+        }
+
+        return $query;
+    }
+
     public function scopeSelectAttributes($query)
     {
         //
