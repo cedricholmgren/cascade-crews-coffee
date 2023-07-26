@@ -2,7 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -37,7 +40,15 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            //
+            // Synchronously...
+            'appName' => config('app.name'),
+
+            // Lazily...
+            // 'anyActiveOrders' => fn() => Order::where('completed', false)->exists(),
+            'activeOrdersIds' => fn() => Order::where('completed', false)->pluck('id'),
+
+            //is actve user ordering
+            'userOrdering' => fn() => User::where('id', Auth::id())->where('ordering', true)->exists(),
         ]);
     }
 }
