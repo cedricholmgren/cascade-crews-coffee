@@ -23,12 +23,17 @@ class Order extends Model
 
     protected static function booted()
     {
-        static::created(function ($order) {
-            $order->user->update(['ordering' => true]);
+        //set user ordering to true
+        static::creating(function ($order) {
+            $order->user->ordering = true;
+            $order->user->save();
         });
-
-        static::deleted(function ($order) {
-            $order->user->update(['ordering' => false]);
+        //when order completed is true, set user ordering to false
+        static::updating(function ($order) {
+            if ($order->completed) {
+                $order->user->ordering = false;
+                $order->user->save();
+            }
         });
     }
 
@@ -52,6 +57,20 @@ class Order extends Model
     public function scopeSelectAttributes($query)
     {
         //
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        // Implement your filtering logic here
+        if (isset($filters['search'])) {
+            $query->where('name', 'like', '%' . $filters['search'] . '%');
+        }
+
+        if (isset($filters['trashed'])) {
+            $query->whereNotNull('deleted_at');
+        }
+
+        return $query;
     }
 
     public function appendAttributes()

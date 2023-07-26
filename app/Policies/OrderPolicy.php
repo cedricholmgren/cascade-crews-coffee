@@ -31,6 +31,12 @@ class OrderPolicy
         return true;
     }
 
+    //store
+    public function store(User $user): bool
+    {
+        return true;
+    }
+
     /**
      * Determine whether the user can update the model.
      */

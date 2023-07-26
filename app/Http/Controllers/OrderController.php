@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Inertia\Inertia;
 
 class OrderController extends Controller
 {
@@ -38,7 +41,8 @@ class OrderController extends Controller
     public function store(StoreOrderRequest $request)
     {
         Order::create($request->validated());
-        return Redirect::route('orders.index');
+        //redirect to the show page of the newly created order
+        return Redirect::route('orders.show', Order::latest()->first());
     }
 
     /**
@@ -46,6 +50,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        // Eager load the 'coffee' relationship
+        $order->load('coffees');
+
         return Inertia::render('Orders/Show', [
             'order' => [
                 'id' => $order->id,
@@ -54,6 +61,7 @@ class OrderController extends Controller
                 'cost' => $order->cost,
                 'created_at' => $order->created_at,
                 'deleted_at' => $order->deleted_at,
+                'coffees' => $order->coffees, // Access the loaded 'coffee' relationship
             ],
         ]);
     }

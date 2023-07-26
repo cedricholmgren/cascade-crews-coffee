@@ -16,7 +16,6 @@ class CoffeeController extends Controller
      */
     public function index()
     {
-
         return Inertia::render('Coffees/Index', [
             'filters' => Request::all('search', 'trashed'),
             'coffees' => Coffee::orderBy('id', 'desc')

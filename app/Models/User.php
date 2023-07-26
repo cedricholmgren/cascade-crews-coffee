@@ -82,4 +82,9 @@ class User extends Authenticatable
             ->orWhere('email', 'like', '%' . $search . '%')
             ->orWhere('ordering', 'like', '%' . $search . '%');
     }
+
+    public function activeOrder()
+    {
+        return $this->orders()->where('completed', false)->latest()->first();
+    }
 }

@@ -21,6 +21,7 @@ class OrderFactory extends Factory
             'user_id' => \App\Models\User::factory(),
             'amount' => $this->faker->randomNumber(),
             'cost' => $this->faker->randomNumber(),
+            'completed' => true,
         ];
     }
 
