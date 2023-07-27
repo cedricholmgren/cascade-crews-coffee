@@ -49,6 +49,9 @@ class HandleInertiaRequests extends Middleware
 
             //is actve user ordering
             'userOrdering' => fn() => User::where('id', Auth::id())->where('ordering', true)->exists(),
+
+            'lastUserCoffee' => fn() => Auth::check() ? User::where('id', Auth::id())->latest()->first()->coffees()->latest()->first() : null,
+
         ]);
     }
 }

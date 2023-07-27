@@ -35,6 +35,12 @@ class OrderController extends Controller
         ]);
     }
 
+    //create
+    public function create()
+    {
+        return Inertia::render('Orders/Create');
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -72,7 +78,7 @@ class OrderController extends Controller
     public function update(UpdateOrderRequest $request, Order $order)
     {
         $order->update($request->validated());
-        return Redirect::back();
+        return Redirect::route('dashboard');
     }
 
     /**

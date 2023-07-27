@@ -1,9 +1,5 @@
 <template>
-    <button
-        :class="buttonClasses"
-        class="w-full text-left"
-        @click="handleButtonClick()"
-    >
+    <button :class="buttonClasses" class="w-full" @click="handleButtonClick()">
         {{ buttonText }}
     </button>
 </template>
@@ -28,6 +24,8 @@ const anyActiveOrders = computed(() => {
     }
 });
 
+const lastUserCoffee = page.props.lastUserCoffee;
+
 const orderForm = useForm({
     _method: "POST",
     user_id: page.props.auth.user.id,
@@ -45,7 +43,13 @@ const props = defineProps({});
 
 const buttonText = computed(() => {
     if (anyActiveOrders.value && userOrdering.value) {
-        return "Complete Order";
+        return "View Order";
+    } else if (
+        anyActiveOrders.value &&
+        !userOrdering.value &&
+        lastUserCoffee.order_id == page.props.activeOrdersIds[0]
+    ) {
+        return "Edit Coffee";
     } else if (anyActiveOrders.value && !userOrdering.value) {
         return "Add to Order";
     } else if (!anyActiveOrders.value && !userOrdering.value) {
@@ -63,25 +67,28 @@ const newOrder = () => {
     orderForm.post(route("orders.store"));
 };
 
-//function to route to coffee.create page with order id as prop
 const addToOrder = () => {
-    //route to coffee.create page with order id as prop
-    router.get({
-        name: "coffee.create",
-        params: { order: page.props.activeOrdersIds[0] },
-    });
+    router.get(route("coffees.create"));
 };
 
+const editCoffee = () => {
+    router.get(route("coffees.edit", lastUserCoffee.id));
+};
+
+const viewOrder = () => {
+    router.get(route("orders.show", page.props.activeOrdersIds[0]));
+};
 //function to complete order by calling api to update order status to complete
-const completeOrder = () => {};
 
-//if anyActiveOrders is true && userOrdering is false then route to coffee.store to submit coffee to current order
-//if anyActiveOrders is true && userOrdering is true then show modal to complete order
-
-//if anyActiveOrders is false && userOrdering is false then show confirmation modal to start new order and then route to new order page
 const handleButtonClick = () => {
     if (anyActiveOrders.value && userOrdering.value) {
-        completeOrder();
+        viewOrder();
+    } else if (
+        anyActiveOrders.value &&
+        !userOrdering.value &&
+        lastUserCoffee.order_id == page.props.activeOrdersIds[0]
+    ) {
+        editCoffee();
     } else if (anyActiveOrders.value && !userOrdering.value) {
         addToOrder();
     } else if (!anyActiveOrders.value && !userOrdering.value) {
