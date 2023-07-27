@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CoffeeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -32,9 +33,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
 });
 
 //route for getting orders, storing orders, and updating orders
@@ -45,7 +44,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('orders', [OrderController::class, 'index'])->name('orders')->middleware('auth');
     Route::post('orders', [OrderController::class, 'store'])->name('orders.store')->middleware('auth');
-    Route::put('orders', [OrderController::class, 'update'])->name('orders.update')->middleware('auth');
+    Route::put('orders/{order}', [OrderController::class, 'update'])->name('orders.update')->middleware('auth');
     Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
     Route::delete('orders/{order}', [OrderController::class, 'destroy'])->name('orders.destroy')->middleware('auth');
 });
@@ -57,8 +56,10 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('coffees', [CoffeeController::class, 'index'])->name('coffees')->middleware('auth');
+    Route::get('coffees/create', [CoffeeController::class, 'create'])->name('coffees.create')->middleware('auth');
+    Route::get('coffees/{coffee}/edit', [CoffeeController::class, 'edit'])->name('coffees.edit')->middleware('auth');
     Route::post('coffees', [CoffeeController::class, 'store'])->name('coffees.store')->middleware('auth');
-    Route::put('coffees', [CoffeeController::class, 'update'])->name('coffees.update')->middleware('auth');
+    Route::put('coffees/{coffee}', [CoffeeController::class, 'update'])->name('coffees.update')->middleware('auth');
     Route::get('coffees/{coffee}', [CoffeeController::class, 'show'])->name('coffees.show')->middleware('auth');
     Route::delete('coffees/{coffee}', [CoffeeController::class, 'destroy'])->name('coffees.destroy')->middleware('auth');
 });

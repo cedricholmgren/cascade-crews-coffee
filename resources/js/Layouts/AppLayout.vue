@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { Head, Link, router } from "@inertiajs/vue3";
+import { Head, Link, router, usePage } from "@inertiajs/vue3";
 import ApplicationMark from "@/Components/ApplicationMark.vue";
 import Banner from "@/Components/Banner.vue";
 import Dropdown from "@/Components/Dropdown.vue";
@@ -27,6 +27,10 @@ const switchToTeam = (team) => {
     );
 };
 
+const page = usePage();
+
+const activeOrder = page.props.activeOrdersIds[0];
+
 const logout = () => {
     router.post(route("logout"));
 };
@@ -52,7 +56,7 @@ const logout = () => {
                             </div>
 
                             <!-- Navigation Links -->
-                            <div
+                            <!-- <div
                                 class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
                             >
                                 <NavLink
@@ -61,26 +65,16 @@ const logout = () => {
                                 >
                                     Dashboard
                                 </NavLink>
-                            </div>
+                            </div> -->
                             <div
                                 class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
                             >
-                                <NavLink
-                                    :href="route('orders.show', 1)"
+                                <!-- <NavLink
+                                    :href="route('orders.show', activeOrder)"
                                     :active="route().current('orders.show')"
                                 >
-                                    Profile
-                                </NavLink>
-                            </div>
-                            <div
-                                class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
-                            >
-                                <NavLink
-                                    :href="route('coffees')"
-                                    :active="route().current('coffees')"
-                                >
-                                    Coffees
-                                </NavLink>
+                                    Order.show
+                                </NavLink> -->
                             </div>
                         </div>
 
@@ -150,7 +144,7 @@ const logout = () => {
                                         </div>
 
                                         <DropdownLink
-                                            :href="route('orders.show', 1)"
+                                            :href="route('profile.show')"
                                         >
                                             Profile
                                         </DropdownLink>
@@ -229,8 +223,8 @@ const logout = () => {
                     </div>
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
-                            :href="route('orders.show', 1)"
-                            :active="route().current('orders.show')"
+                            :href="route('profile.show')"
+                            :active="route().current('profile.show')"
                         >
                             Profile
                         </ResponsiveNavLink>

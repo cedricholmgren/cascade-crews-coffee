@@ -37,13 +37,25 @@ class CoffeeController extends Controller
         ]);
     }
 
+    //create
+    public function create()
+    {
+        return Inertia::render('Coffees/Create');
+    }
+
+    //edit
+    public function edit()
+    {
+        return Inertia::render('Coffees/Edit');
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreCoffeeRequest $request)
     {
         Coffee::create($request->validated());
-        return Redirect::route('coffees.index');
+        return Redirect::route('dashboard');
     }
 
     /**
@@ -71,7 +83,7 @@ class CoffeeController extends Controller
     public function update(UpdateCoffeeRequest $request, Coffee $coffee)
     {
         $coffee->update($request->validated());
-        return Redirect::back();
+        return Redirect::route('dashboard');
     }
 
     /**
