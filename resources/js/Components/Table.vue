@@ -7,7 +7,7 @@
                     <th
                         v-for="header in headers"
                         :key="header.key"
-                        class="px-4 py-2 font-semibold text-left border-b-2 border-gray-300"
+                        class="px-4 py-2 font-semibold text-left border-b-2 border-gray-300 bg-gray-200"
                     >
                         {{ header.label }}
                     </th>
@@ -17,7 +17,7 @@
                 <tr
                     v-for="(item, index) in data"
                     :key="item.id"
-                    class="hover:bg-gray-300"
+                    class="bg-white hover:bg-gray-300"
                 >
                     <!-- Display the order in the first column -->
                     <td class="px-4 py-2 border-b border-gray-300">
