@@ -1,5 +1,5 @@
 <template>
-    <button :class="buttonClasses" class="w-full" @click="handleButtonClick()">
+    <button :class="buttonClasses" @click="handleButtonClick()">
         {{ buttonText }}
     </button>
 </template>
@@ -58,7 +58,7 @@ const buttonText = computed(() => {
 });
 
 const buttonClasses = computed(() => {
-    return "block w-full px-4 py-2 text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 active:bg-blue-700 transition duration-150 ease-in-out";
+    return "block px-4 py-2 text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 active:bg-blue-700 transition duration-150 ease-in-out";
 });
 
 //function to send store order request to api

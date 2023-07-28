@@ -24,7 +24,7 @@ const popularCoffeesHeaders = [
     },
     {
         key: "total",
-        label: "total",
+        label: "Total Ordered",
     },
 ];
 
@@ -42,11 +42,7 @@ const topUsersHeaders = [
     },
     {
         key: "orders_sum_amount",
-        label: "Total Coffees Bought",
-    },
-    {
-        key: "email",
-        label: "Email",
+        label: "Coffees Bought",
     },
 ];
 </script>
@@ -61,20 +57,30 @@ const topUsersHeaders = [
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <!-- coffee action button -->
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <!-- Display table with coffees -->
-                    <div class="flex flex-row">
-                        <Table
-                            :data="popularCoffees"
-                            :headers="popularCoffeesHeaders"
-                            class="w-1/2"
-                        />
-                        <Table
-                            :data="topUsers"
-                            :headers="topUsersHeaders"
-                            class="w-1/2"
-                        />
-                    </div>
+                <!-- Display table with coffees -->
+                <div class="flex flex-col items-center justify-center mb-4">
+                    <p
+                        class="text-gray-600 text-lg mt-8 text-center max-h-20 overflow-hidden line-clamp-5"
+                    >
+                        Many people think fences and decks are made with timber
+                        and nails. Wrong. Quality fences and decks are made with
+                        great people and lots of coffee. Grab something for the
+                        crew when you go for a coffee run, they’ll tell you
+                        their order here!
+                    </p>
+                    <CoffeeActionButton class="mt-3" />
+                </div>
+                <div class="flex flex-row gap-10">
+                    <Table
+                        :data="popularCoffees"
+                        :headers="popularCoffeesHeaders"
+                        class="w-1/2 bg-white"
+                    />
+                    <Table
+                        :data="topUsers"
+                        :headers="topUsersHeaders"
+                        class="w-1/2 bg-white"
+                    />
                 </div>
             </div>
         </div>

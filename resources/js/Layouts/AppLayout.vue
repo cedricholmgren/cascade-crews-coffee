@@ -51,7 +51,13 @@ const logout = () => {
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationMark class="block h-9 w-auto" />
+                                    <div class="flex flex-row">
+                                        <img
+                                            src="https://cascadefenceanddeck.com/wp-content/uploads/Cascade-Fence-And-Deck-Logo.png"
+                                            alt="Coffee"
+                                        />
+                                        <div class="mt-7">& COFFEE</div>
+                                    </div>
                                 </Link>
                             </div>
 
