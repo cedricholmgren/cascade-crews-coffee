@@ -73,7 +73,7 @@ const logout = () => {
                                 </NavLink>
                             </div> -->
                             <div
-                                class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
+                                class="hidden space-x-8 sm:-my-px sm:ml-96 sm:flex"
                             >
                                 <!-- <NavLink
                                     :href="route('orders.show', activeOrder)"
@@ -85,7 +85,7 @@ const logout = () => {
                         </div>
 
                         <!-- coffee action button -->
-                        <div class="hidden sm:flex sm:items-center sm:ml-6">
+                        <div class="hidden sm:flex sm:items-center sm:ml-40">
                             <CoffeeActionButton />
                         </div>
 

@@ -17,10 +17,11 @@ class OrderFactory extends Factory
      */
     public function definition(): array
     {
+        $amount = $this->faker->numberBetween(1, 10);
         return [
-            'user_id' => \App\Models\User::factory(),
-            'amount' => $this->faker->randomNumber(),
-            'cost' => $this->faker->randomNumber(),
+            'user_id' => $this->faker->numberBetween(1, 10),
+            'amount' => $amount,
+            'cost' => $amount * $this->faker->numberBetween(4, 9),
             'completed' => true,
         ];
     }
