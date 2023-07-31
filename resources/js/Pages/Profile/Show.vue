@@ -23,6 +23,21 @@ defineProps({
 
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+                <!-- Total coffees given -->
+                <div class="flex flex-row">
+                    <div class="flex flex-row mb-10 gap-10 ml-40">
+                        <div class="text-2xl">Total Coffees Given:</div>
+                        <div class="text-2xl">
+                            {{ $page.props.orderAmount }}
+                        </div>
+                    </div>
+                    <div class="flex flex-row mb-10 gap-10 ml-80">
+                        <div class="text-2xl">Total Coffees Ordered:</div>
+                        <div class="text-2xl">
+                            {{ $page.props.totalCoffees }}
+                        </div>
+                    </div>
+                </div>
                 <div v-if="$page.props.jetstream.canUpdateProfileInformation">
                     <UpdateProfileInformationForm
                         :user="$page.props.auth.user"

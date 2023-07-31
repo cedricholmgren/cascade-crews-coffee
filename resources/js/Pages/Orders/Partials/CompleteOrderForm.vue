@@ -31,16 +31,21 @@ const completeOrder = () => {
 <template>
     <FormSection @submitted="completeOrder">
         <template #form>
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="cost" value="Cost" />
+            <div class="sm:col-span-4">
+                <InputLabel for="cost" value="Cost" class="ml-3" />
+                $
                 <TextInput
                     id="cost"
                     ref="costInput"
                     v-model="form.cost"
                     type="number"
-                    class="mt-1 block w-full"
+                    class="mt-1"
                     autocomplete="cost"
                 />
+                <div class="ml-4">
+                    Estimated Cost: $
+                    {{ order.estimatedCost * order.coffees.length }}
+                </div>
             </div>
         </template>
 

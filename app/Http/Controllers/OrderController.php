@@ -58,7 +58,8 @@ class OrderController extends Controller
     {
         // Eager load the 'coffee' relationship
         $order->load('coffees');
-
+        //$estimatedCost = Order::sum('cost') / Order::sum('amount'); to the nearest cent
+        $estimatedCost = round(Order::sum('cost') / Order::sum('amount'), 2);
         return Inertia::render('Orders/Show', [
             'order' => [
                 'id' => $order->id,
@@ -68,6 +69,7 @@ class OrderController extends Controller
                 'created_at' => $order->created_at,
                 'deleted_at' => $order->deleted_at,
                 'coffees' => $order->coffees, // Access the loaded 'coffee' relationship
+                'estimatedCost' => $estimatedCost,
             ],
         ]);
     }

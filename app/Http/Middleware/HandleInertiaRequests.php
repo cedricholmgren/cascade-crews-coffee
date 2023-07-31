@@ -51,6 +51,11 @@ class HandleInertiaRequests extends Middleware
             'userOrdering' => fn() => User::where('id', Auth::id())->where('ordering', true)->exists(),
 
             'lastUserCoffee' => fn() => Auth::check() ? User::where('id', Auth::id())->latest()->first()->coffees()->latest()->first() : null,
+            //look through the orders of the user and add up the amount field and return it as a prop
+
+            'orderAmount' => fn() => Auth::check() ? User::where('id', Auth::id())->latest()->first()->orders()->where('completed', true)->sum('amount') : null,
+
+            'totalCoffees' => fn() => Auth::check() ? User::where('id', Auth::id())->latest()->first()->coffees()->count() : null,
 
         ]);
     }

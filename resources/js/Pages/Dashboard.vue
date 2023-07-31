@@ -60,7 +60,7 @@ const topUsersHeaders = [
                 <!-- Display table with coffees -->
                 <div class="flex flex-col items-center justify-center mb-4">
                     <p
-                        class="text-gray-600 text-lg mt-8 text-center max-h-20 overflow-hidden line-clamp-5"
+                        class="text-gray-600 text-lg mt-8 text-center max-h-40 overflow-hidden"
                     >
                         Many people think fences and decks are made with timber
                         and nails. Wrong. Quality fences and decks are made with
@@ -69,6 +69,14 @@ const topUsersHeaders = [
                         their order here!
                     </p>
                     <CoffeeActionButton class="mt-3" />
+                    <div class="flex flex-row gap-96">
+                        <div class="mr-2 font-bold">
+                            Popular Coffees Leaderboard
+                        </div>
+                        <div class="ml-2 font-bold">
+                            Most Coffees Ordered Leaderboard
+                        </div>
+                    </div>
                 </div>
                 <div class="flex flex-row gap-10">
                     <Table
@@ -86,3 +94,13 @@ const topUsersHeaders = [
         </div>
     </AppLayout>
 </template>
+
+<style>
+.line-clamp-5 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 5; /* Number of lines to show */
+}
+</style>
